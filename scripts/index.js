@@ -64,9 +64,30 @@ function generateMap(width, height)
 			checkbox.setAttribute("name", `${y}${x}`);
 			checkbox.setAttribute("id", `${y}${x}`);
 			checkbox.checked = x == 0 || x == width - 1 || y == 0 || y == height - 1;
-			checkbox.addEventListener("input", function onCheck(event) {
-				map[y][x] = !map[y][x];
+			checkbox.addEventListener("click", e => e.preventDefault());
+			// checkbox.addEventListener("input", function onCheck(e) {
+			// 	// map[y][x] = !map[y][x];
+			// 	e.preventDefault();
+			// 	e.stopPropagation();
+			// });
+			checkbox.addEventListener("mousedown", function mouseDown(e) {
+				if (e.button == 0 && e.buttons != 0) {
+					map[y][x] = !map[y][x];
+					this.checked = !this.checked;
+				}
 			});
+			checkbox.addEventListener("mouseenter", function mouseEnter(e) {
+				if (e.button == 0 && e.buttons != 0) {
+					map[y][x] = !map[y][x];
+					this.checked = !this.checked;
+				}
+			});
+			// checkbox.addEventListener("mouseleave", function mouseEnter(e) {
+			// 	if (e.button == 0 && e.buttons != 0) {
+			// 		map[y][x] = !map[y][x];
+			// 		this.checked = !this.checked;
+			// 	}
+			// });
 			rowNode.appendChild(checkbox);
 		}
 		mapNode.appendChild(rowNode);
