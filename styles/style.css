@@ -1,0 +1,140 @@
+* {
+	color: white;
+	font-family: Tahoma;
+	padding: 0;
+	margin: 0;
+	border: 0;
+	box-sizing: border-box;
+}
+
+html, body {
+	height: 100vh;
+}
+
+body {
+	background-color: #252525;
+}
+
+.wrapper {
+	padding: 1rem;
+	display: grid;
+	grid-template-rows:
+		min-content
+		auto;
+	grid-template-areas:
+		"title"
+		"content";
+	gap: 1rem;
+	justify-items: center;
+	align-items: center;
+	height: 100vh;
+}
+
+.title {
+	grid-area: title;
+}
+
+.content {
+	grid-area: content;
+	display: grid;
+	height: 100%;
+	width: 100%;
+	grid-template-rows: min-content max-content;
+	gap: 1rem;
+}
+
+.ranges {
+	display: flex;
+	gap: .5rem;
+	justify-self: center;
+}
+
+.range {
+	padding: .5rem;
+	display: grid;
+	grid-template:
+		min-content auto
+		min-content auto;
+	grid-template-areas:
+		"name value"
+		"slider slider";
+	gap: .3rem;
+	background-color: #424242;
+	border-radius: .5rem;
+	box-shadow: 0 .25rem 1rem #1F1F1F;
+}
+
+.range .name {
+	grid-area: name;
+	font-weight: bold;
+}
+
+.range .value {
+	grid-area: value;
+	justify-self: right;
+	/* justify-self: left !important; */
+}
+
+.range input {
+	grid-area: slider;
+}
+
+.map {
+	display: flex;
+	flex-direction: column;
+	justify-self: center;
+	padding: .5rem;
+	background-color: #424242;
+	border-radius: .5rem;
+	box-shadow: 0 .25rem 1rem #1F1F1F;
+	gap: 5px;
+}
+
+.map div[class^="row"]
+{
+	display: flex;
+	gap: 5px;
+}
+
+.map input[type=checkbox] {
+	padding: 0;
+	margin: 0;
+	appearance: unset;
+	width: 2rem;
+	height: 2rem;
+	background: #000;
+	border-radius: 25%;
+	transition: all .15s ease-in-out;
+}
+
+.map input[type=checkbox]:hover {
+	background: rgb(49, 49, 49);
+}
+
+.map input[type=checkbox]:checked {
+	background: rgb(64, 255, 80);
+}
+
+.buttons {
+	display: flex;
+	flex-direction: row;
+	justify-self: center;
+	gap: .3rem;
+}
+
+.buttons a {
+	justify-self: center;
+	align-self: flex-start;
+	padding: .5rem;
+	background-color: #424242;
+	border-radius: .5rem;
+	box-shadow: 0 .25rem 1rem #1F1F1F;
+	gap: 5px;
+	text-decoration: none;
+	font-weight: bold;
+	transition: all .15s ease-in-out;
+}
+
+.buttons a:hover {
+	background-color: #525252;
+}

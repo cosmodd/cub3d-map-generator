@@ -1,0 +1,32 @@
+<head>
+	<meta charset="UTF-8">
+	<title>cub3d Map Generator</title>
+	<script defer src="scripts/FileSaver.js"></script>
+	<script defer src="scripts/index.js"></script>
+	<link rel="stylesheet" href="styles/style.css">
+</head>
+<body>
+	<div class="wrapper">
+		<h1 class="title">Map Generator</h1>
+		<div class="content">
+			<div class="ranges">
+				<div class="range" id="width">
+					<p class="name">Width</p>
+					<input type="range" name="width" id="width" min="3" max="30" step="1" value="3">
+					<p class="value"></p>
+				</div>
+				<div class="range" id="height">
+					<p class="name">Height</p>
+					<input type="range" name="height" id="height" min="3" max="15" step="1" value="3">
+					<p class="value"></p>
+				</div>
+			</div>
+			<div class="map" id="map"></div>
+			<div class="buttons" id="buttons">
+				<a href="#" class="export" onclick="exportMap()">EXPORT</a>
+				<a href="#" class="clipboard" onclick="toClipboard()">COPY TO CLIPBOARD</a>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
