@@ -112,7 +112,7 @@ body {
 }
 
 .map input[type=checkbox]:checked {
-	background: rgb(64, 255, 80);
+	background: #5445FF;
 }
 
 .buttons {
