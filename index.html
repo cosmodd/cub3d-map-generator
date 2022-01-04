@@ -4,7 +4,7 @@
 	<script defer src="https://unpkg.com/@highlightjs/cdn-assets@11.3.1/highlight.min.js"></script>
 	<script defer src="scripts/FileSaver.js"></script>
 	<script defer src="scripts/index.js"></script>
-	<link rel="stylesheet" href="https://unpkg.com/@highlightjs/cdn-assets@11.3.1/styles/default.min.css">
+	<link rel="stylesheet" href="https://unpkg.com/@highlightjs/cdn-assets@11.3.1/styles/github-dark.min.css">
 	<link rel="stylesheet" href="https://unpkg.com/normalize.css@8.0.1/normalize.css">
 	<link rel="stylesheet" href="styles/style.css">
 </head>
@@ -27,26 +27,56 @@
 						<input class="slider" type="range" name="height" id="height" min="3" max="15" value="7">
 					</div>
 				</div>
-				<div class="map" id="map">
-					<!-- Here will be inserted the checkboxes -->
-					<input type="checkbox" name="0:0" id="0:0">
-				</div>
 				<div class="buttons">
 					<button id="reset" class="danger" onclick="reset()">Reset</button>
 					<button id="clear" class="danger" onclick="updateMap()">Clear</button>
-					<button id="export" class="" onclick="" disabled>Export as file</button>
+					<button id="export" class="" onclick="saveMap()">Export as file</button>
 					<button id="copy" class="" onclick="copy()">Copy to clipboard</button>
+				</div>
+				<div class="map" id="map">
+					<!-- Here will be inserted the checkboxes -->
+					<!-- <input type="checkbox" name="0:0" id="0:0"> -->
 				</div>
 			</div>
 			<div class="sections">
 				<section>
-					<h1>How to use it</h1>
-					<p>To "paint" on the map, you can click and drag your cursor over the tiles.</p>
-					<!-- <p>Maybe talk about other things...</p> -->
+					<h1 class="title">How to use it</h1>
+					<div class="content">
+						<p>To "paint" on the map, you can click and drag your cursor over the tiles.</p>
+						<p>You can export the current map as a file or copy it to the clipboard (exemple output in about section) with the buttons above the map.</p>
+					</div>
 				</section>
 				<section>
-					<h1>About</h1>
-					<p>This tool is for those who wants to create <span class="bold">Cub3d</span> maps to easily test their program in different test cases.</p>
+					<h1 class="title">About</h1>
+					<div class="content">
+						<p>This tool is for those who wants to create <span class="bold">Cub3d</span> maps to easily test their program in different test cases.</p>
+						<p>Copying the map to the clipboard gives you an array like this :</p>
+							<pre><code class="language-c">int    map[7][7] = {
+	{ 1,1,1,1,1,1,1 },
+	{ 1,0,0,1,0,0,1 },
+	{ 1,0,0,1,0,0,1 },
+	{ 1,1,1,1,1,1,1 },
+	{ 1,0,0,1,0,0,1 },
+	{ 1,0,0,1,0,0,1 },
+	{ 1,1,1,1,1,1,1 }
+};						</code></pre>
+						<p>And exporting the map as a file gives you this :</p>
+						<pre><code class="language-plaintext">NO ./path_to_the_north_texture
+SO ./path_to_the_south_texture
+WE ./path_to_the_west_texture
+EA ./path_to_the_east_texture
+
+F R,G,B
+C R,G,B
+
+1111111
+1001001
+1001001
+1111111
+1001001
+1001001
+1111111</code></pre>
+					</div>
 				</section>
 			</div>
 		</main>

@@ -1,3 +1,10 @@
+const	nodes = {
+	map: document.querySelector("#map"),
+	buttons: {
+		copy: document.querySelector("#copy"),
+	}
+}
+
 let	values = {
 	width: {
 		nodes: {
@@ -14,8 +21,6 @@ let	values = {
 		value: document.querySelector("input#height").value
 	}
 }
-
-const mapNode = document.querySelector("#map");
 
 let	map = [];
 
@@ -51,14 +56,14 @@ function	generateDefaultMap(width, height)
 function	updateCell(x, y)
 {
 	map[y][x] = !map[y][x];
-	mapNode.querySelector(`input[id="${y}:${x}"]`).checked = map[y][x];
+	nodes.map.querySelector(`input[id="${y}:${x}"]`).checked = map[y][x];
 }
 
 function	updateMaxWidth()
 {
-	const checkbox = mapNode.querySelector("input");
+	const checkbox = nodes.map.querySelector("input");
 	const newMax = Math.round(
-		mapNode.clientWidth /
+		nodes.map.clientWidth /
 		(checkbox.clientWidth + parseFloat(getComputedStyle(checkbox.parentElement).gap))
 	);
 	values.width.nodes.slider.setAttribute("max", newMax);
@@ -75,7 +80,7 @@ function	setSliderValue(name, value)
 
 function	updateVisualMap()
 {
-	mapNode.innerHTML = "";
+	nodes.map.innerHTML = "";
 	for (const [y, line] of map.entries())
 	{
 		const rowNode = document.createElement("div");
@@ -96,7 +101,7 @@ function	updateVisualMap()
 
 			rowNode.appendChild(checkboxNode);
 		}
-		mapNode.appendChild(rowNode);
+		nodes.map.appendChild(rowNode);
 	}
 }
 
@@ -108,7 +113,22 @@ function	updateMap()
 
 function	getMapAsCArray()
 {
-	return (`{\n${map.map(l => `\t{ ${l.map(v => +v).join(',')} }`).join(',\n')}\n}`);
+	return (`int	map[${values.height.value}][${values.width.value}] = {\n${map.map(l => `\t{ ${l.map(v => +v).join(',')} }`).join(',\n')}\n}`);
+}
+
+function	getFileMap()
+{
+	return [
+		"NO ./path_to_the_north_texture",
+		"SO ./path_to_the_south_texture",
+		"WE ./path_to_the_west_texture",
+		"EA ./path_to_the_east_texture",
+		"",
+		"F R,G,B",
+		"C R,G,B",
+		"",
+		...map.map(l => l.map(v => +v).join("")),
+	].join("\n");
 }
 
 // Buttons functions
@@ -119,18 +139,29 @@ function	reset()
 	updateMap();
 }
 
+function copyToClipboard(content) {
+	if (navigator.clipboard != null) return navigator.clipboard.writeText(content);
+	const	textarea = document.createElement("textarea");
+	textarea.value = content;
+	document.body.append(textarea);
+	textarea.select();
+	document.execCommand("copy");
+	document.body.removeChild(textarea);
+}
+
+function	saveMap()
+{
+	const blob = new Blob(getFileMap().split("\n").map(l => `${l}\n`));
+	saveAs(blob, "map.cub");
+}
+
 function	copy()
 {
-	if (navigator.clipboard != null) navigator.clipboard.writeText(getMapAsCArray());
-	else
-	{
-		const textarea = document.createElement("textarea");
-		textarea.value = getMapAsCArray();
-		document.body.appendChild(textarea);
-		textarea.select();
-		document.execCommand("copy");
-		document.body.removeChild(textarea);
-	}
+	copyToClipboard(getMapAsCArray());
+	nodes.buttons.copy.classList.add("valid");
+	setTimeout(() => {
+		nodes.buttons.copy.classList.remove("valid");
+	}, 500);
 }
 
 [...Object.entries(values)].forEach(([prop, content]) => {
@@ -152,4 +183,4 @@ document.addEventListener("readystatechange", event => {
 	}
 });
 
-new ResizeObserver(updateMaxWidth).observe(mapNode);
+new ResizeObserver(updateMaxWidth).observe(nodes.map);

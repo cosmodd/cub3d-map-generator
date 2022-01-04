@@ -106,7 +106,7 @@ h1, h2, h3, h4, h5, p {
   background: var(--bg-color);
   color: #F7F7F7;
   box-shadow: 0 0.3rem 1rem 0 var(--bg-shadow-col);
-  transition: all .15s ease-out; }
+  transition: transform .15s ease-out, background 100ms ease-out, box-shadow 100ms ease-out; }
 
 .wrapper main .generator .buttons button:disabled {
   background: #999999;
@@ -140,14 +140,19 @@ h1, h2, h3, h4, h5, p {
   border-radius: .5rem;
   padding: 1.5rem; }
 
-.wrapper main .sections section h1 {
+.wrapper main .sections section .title {
   margin-bottom: .5rem; }
 
-.wrapper main .sections section p {
+.wrapper main .sections section .content {
+  display: flex;
+  flex-direction: column;
+  gap: .5rem; }
+
+.wrapper main .sections section .content p {
   position: relative;
   padding-left: 1rem; }
 
-.wrapper main .sections section p::before {
+.wrapper main .sections section .content p::before {
   content: '';
   display: block;
   position: absolute;
@@ -155,6 +160,12 @@ h1, h2, h3, h4, h5, p {
   height: 100%;
   left: 0;
   background: #999999; }
+
+.wrapper main .sections section .content pre {
+  margin: 0; }
+
+.wrapper main .sections section .content pre code {
+  border-radius: .5rem; }
 
 .wrapper footer {
   grid-area: "footer";

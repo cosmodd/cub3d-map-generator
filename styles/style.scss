@@ -84,12 +84,12 @@ h1, h2, h3, h4, h5, p { margin: 0; }
 					}
 				}
 			}
-			
+
 			.ranges {
 				display: flex;
 				flex-direction: row;
 				gap: 1rem;
-				
+
 				.range {
 					background: $white;
 					box-shadow: 0 8px 1.5rem 0 transparentize($black-alt, .75);
@@ -134,19 +134,19 @@ h1, h2, h3, h4, h5, p { margin: 0; }
 					background: var(--bg-color);
 					color: $white;
 					box-shadow: 0 .3rem 1rem 0 var(--bg-shadow-col);
-					transition: all .15s ease-out;
-					
+					transition: transform .15s ease-out, background 100ms ease-out, box-shadow 100ms ease-out;
+
 					&:disabled {
 						background: $black-alt;
 						--bg-shadow-col: #{transparentize($black-alt, .3)};
 						cursor: not-allowed;
 					}
-					
+
 					&:active {
 						transform: translateY(.2rem);
 						box-shadow: 0 .2rem 1.2rem 0 var(--bg-shadow-col);
 					}
-					
+
 					&:not(:disabled):hover {
 						transform: translateY(-.2rem);
 						box-shadow: 0 .6rem 1.2rem 0 var(--bg-shadow-col);
@@ -156,7 +156,7 @@ h1, h2, h3, h4, h5, p { margin: 0; }
 						--bg-color: #{$red};
 						--bg-shadow-col: #{transparentize($red, .6)};
 					}
-					
+
 					&.valid {
 						--bg-color: #{$green};
 						--bg-shadow-col: #{transparentize($green, .6)};
@@ -175,27 +175,44 @@ h1, h2, h3, h4, h5, p { margin: 0; }
 				box-shadow: 0 8px 1.5rem 0 transparentize($black-alt, .75);
 				border-radius: .5rem;
 				padding: 1.5rem;
-				h1 {
+
+				.title {
 					margin-bottom: .5rem;
 				}
-				p {
-					position: relative;
-					padding-left: 1rem;
 
-					&::before {
-						content: '';
-						display: block;
-						position: absolute;
-						width: 2px;
-						height: 100%;
-						left: 0;
-						background: $black-alt;
+				.content {
+					display: flex;
+					flex-direction: column;
+					gap: .5rem;
+
+
+					p {
+						position: relative;
+						padding-left: 1rem;
+
+						&::before {
+							content: '';
+							display: block;
+							position: absolute;
+							width: 2px;
+							height: 100%;
+							left: 0;
+							background: $black-alt;
+						}
+					}
+
+					pre {
+						margin: 0;
+						code {
+							border-radius: .5rem;
+						}
 					}
 				}
+
 			}
 		}
 	}
-	
+
 	footer {
 		grid-area: "footer";
 		padding: .75rem;
@@ -208,7 +225,7 @@ h1, h2, h3, h4, h5, p { margin: 0; }
 			color: $white;
 			font-weight: bold;
 			letter-spacing: normal;
-			
+
 			&::after {
 				content: '';
 				display: block;
@@ -220,7 +237,7 @@ h1, h2, h3, h4, h5, p { margin: 0; }
 				bottom: 0;
 				transition: all .35s ease-out;
 			}
-			
+
 			&:hover::after {
 				right: 12.5%;
 				width: 75%;
