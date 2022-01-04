@@ -1,0 +1,23 @@
+{
+  "name": "cub3d-map-generator",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://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@github.com/cosmodd/cub3d-map-generator.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cosmodd/cub3d-map-generator/issues"
+  },
+  "homepage": "https://github.com/cosmodd/cub3d-map-generator#readme",
+  "dependencies": {
+    "node-sass": "^7.0.1"
+  }
+}

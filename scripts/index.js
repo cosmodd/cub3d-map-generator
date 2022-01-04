@@ -1,116 +1,155 @@
-let map = [];
-const mapNode = document.querySelector("#map");
-
-const ranges = {
+let	values = {
 	width: {
-		parent: document.querySelector("#width"),
-		value: document.querySelector("#width input").value,
+		nodes: {
+			slider: document.querySelector("input#width"),
+			value: document.querySelector(".range.width .value")
+		},
+		value: document.querySelector("input#width").value
 	},
 	height: {
-		parent: document.querySelector("#height"),
-		value: document.querySelector("#height input").value,
-	},
-};
-
-function newArray(length, f)
-{
-	let arr = [];
-	for (let i = 0; i < length; i++)
-		arr[i] = f(i);
-	return (arr);
+		nodes: {
+			slider: document.querySelector("input#height"),
+			value: document.querySelector(".range.height .value")
+		},
+		value: document.querySelector("input#height").value
+	}
 }
 
-function new2DArray(width, height, f)
+const mapNode = document.querySelector("#map");
+
+let	map = [];
+
+function	getArray(length, f)
 {
-	return newArray(height, (y) => {
-		return newArray(width, (x) => {
+	let out = [];
+	for (let i = 0; i < length; i++)
+		out[i] = f(i);
+	return (out);
+}
+
+function	get2dArray(width, height, f)
+{
+	return getArray(height, (y) => {
+		return getArray(width, (x) => {
 			return f(x, y);
 		});
 	});
 }
 
-[...Object.entries(ranges)].forEach(([key, {parent}]) => {
-	const valueNode = parent.querySelector(".value");
-	const slider = parent.querySelector("input");
-	valueNode.innerHTML = slider.value;
-
-	map = new2DArray(ranges.width.value, ranges.height.value, (x, y) => {
-		return x == 0 || x == ranges.width.value - 1
-			|| y == 0 || y == ranges.height.value - 1;
-	});
-
-	slider.addEventListener("input", function updateValue(event) {
-		ranges[key].value = this.value;
-		valueNode.innerHTML = this.value;
-		generateMap(ranges.width.value, ranges.height.value);
-	});
-});
-
-function generateMap(width, height)
+function	generateDefaultMap(width, height)
 {
-	mapNode.innerHTML = '';
-	map = new2DArray(ranges.width.value, ranges.height.value, (x, y) => {
-		return x == 0 || x == ranges.width.value - 1
-			|| y == 0 || y == ranges.height.value - 1;
-	});
-	for (let [row, y] of map.map((v,i) => [v, i]))
+	map = get2dArray(
+		values.width.value,
+		values.height.value,
+		(x, y) => {
+			return (x == 0 || x == values.width.value - 1 ||
+					y == 0 || y == values.height.value - 1);
+		}
+	)
+}
+
+function	updateCell(x, y)
+{
+	map[y][x] = !map[y][x];
+	mapNode.querySelector(`input[id="${y}:${x}"]`).checked = map[y][x];
+}
+
+function	updateMaxWidth()
+{
+	const checkbox = mapNode.querySelector("input");
+	const newMax = Math.round(
+		mapNode.clientWidth /
+		(checkbox.clientWidth + parseFloat(getComputedStyle(checkbox.parentElement).gap))
+	);
+	values.width.nodes.slider.setAttribute("max", newMax);
+	if (values.width.value > newMax)
+		setSliderValue("width", newMax);
+}
+
+function	setSliderValue(name, value)
+{
+	values[name].value = value;
+	values[name].nodes.value.innerHTML = value;
+	values[name].nodes.slider.value = value;
+}
+
+function	updateVisualMap()
+{
+	mapNode.innerHTML = "";
+	for (const [y, line] of map.entries())
 	{
 		const rowNode = document.createElement("div");
-		rowNode.classList.add(`row-${y}`);
-		for (let [cell, x] of row.map((v,i) => [v, i]))
+		rowNode.setAttribute("id", `r${y}`);
+		rowNode.classList.add("row");
+		for (const [x, cell] of line.entries())
 		{
-			const checkbox = document.createElement("input");
-			checkbox.setAttribute("type", "checkbox");
-			checkbox.setAttribute("name", `${y}${x}`);
-			checkbox.setAttribute("id", `${y}${x}`);
-			checkbox.checked = x == 0 || x == width - 1 || y == 0 || y == height - 1;
-			checkbox.addEventListener("click", e => e.preventDefault());
-			// checkbox.addEventListener("input", function onCheck(e) {
-			// 	// map[y][x] = !map[y][x];
-			// 	e.preventDefault();
-			// 	e.stopPropagation();
-			// });
-			checkbox.addEventListener("mousedown", function mouseDown(e) {
-				if (e.button == 0 && e.buttons != 0) {
-					map[y][x] = !map[y][x];
-					this.checked = !this.checked;
-				}
-			});
-			checkbox.addEventListener("mouseenter", function mouseEnter(e) {
-				if (e.button == 0 && e.buttons != 0) {
-					map[y][x] = !map[y][x];
-					this.checked = !this.checked;
-				}
-			});
-			// checkbox.addEventListener("mouseleave", function mouseEnter(e) {
-			// 	if (e.button == 0 && e.buttons != 0) {
-			// 		map[y][x] = !map[y][x];
-			// 		this.checked = !this.checked;
-			// 	}
-			// });
-			rowNode.appendChild(checkbox);
+			const checkboxNode = document.createElement("input");
+			checkboxNode.setAttribute("type", "checkbox");
+			checkboxNode.setAttribute("name", `${y}:${x}`);
+			checkboxNode.setAttribute("id", `${y}:${x}`);
+			checkboxNode.checked = cell;
+
+			// Events
+			checkboxNode.addEventListener("click", e => e.preventDefault()); // Prevent default clicking event
+			checkboxNode.addEventListener("mousedown", e => { if (e.button == 0) updateCell(x, y); });
+			checkboxNode.addEventListener("mouseenter", e => { if (e.button == 0 && e.buttons != 0) updateCell(x, y); })
+
+			rowNode.appendChild(checkboxNode);
 		}
 		mapNode.appendChild(rowNode);
 	}
 }
 
-function getFormattedMap()
+function	updateMap()
 {
-	const rows = map.map(r => {
-		return `\t{${r.map(v => v ? 1 : 0).join(',')}}`;
-	}).join(",\n");
-	return `int	map[${ranges.height.value}][${ranges.width.value}] = {\n${rows}\n};`
+	generateDefaultMap(values.width.value, values.height.value);
+	updateVisualMap();
 }
 
-function exportMap()
+function	getMapAsCArray()
 {
-	const blob = new Blob([getFormattedMap()], {type: "text/plain;charset=utf-8"});
-	saveAs(blob, "map.txt");
+	return (`{\n${map.map(l => `\t{ ${l.map(v => +v).join(',')} }`).join(',\n')}\n}`);
 }
 
-function toClipboard()
+// Buttons functions
+function	reset()
 {
-	navigator.clipboard.writeText(getFormattedMap());
+	setSliderValue("width", 7);
+	setSliderValue("height", 7);
+	updateMap();
 }
 
-generateMap(ranges.width.value, ranges.height.value);
+function	copy()
+{
+	if (navigator.clipboard != null) navigator.clipboard.writeText(getMapAsCArray());
+	else
+	{
+		const textarea = document.createElement("textarea");
+		textarea.value = getMapAsCArray();
+		document.body.appendChild(textarea);
+		textarea.select();
+		document.execCommand("copy");
+		document.body.removeChild(textarea);
+	}
+}
+
+[...Object.entries(values)].forEach(([prop, content]) => {
+	values[prop].nodes.value.innerHTML = content.value;
+	content.nodes.slider.addEventListener("input", function update() {
+		values[prop].value = this.value;
+		values[prop].nodes.value.innerHTML = this.value;
+		updateMap();
+	});
+});
+
+updateMap();
+
+document.addEventListener("readystatechange", event => {
+	if (event.target.readyState == "complete")
+	{
+		hljs.highlightAll();
+		updateMaxWidth();
+	}
+});
+
+new ResizeObserver(updateMaxWidth).observe(mapNode);

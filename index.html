@@ -1,32 +1,58 @@
 <head>
 	<meta charset="UTF-8">
 	<title>cub3d Map Generator</title>
+	<script defer src="https://unpkg.com/@highlightjs/cdn-assets@11.3.1/highlight.min.js"></script>
 	<script defer src="scripts/FileSaver.js"></script>
 	<script defer src="scripts/index.js"></script>
+	<link rel="stylesheet" href="https://unpkg.com/@highlightjs/cdn-assets@11.3.1/styles/default.min.css">
+	<link rel="stylesheet" href="https://unpkg.com/normalize.css@8.0.1/normalize.css">
 	<link rel="stylesheet" href="styles/style.css">
 </head>
 <body>
 	<div class="wrapper">
-		<h1 class="title">Map Generator</h1>
-		<div class="content">
-			<div class="ranges">
-				<div class="range" id="width">
-					<p class="name">Width</p>
-					<input type="range" name="width" id="width" min="3" max="30" step="1" value="3">
-					<p class="value"></p>
+		<header>
+			<h1 class="title">Cub3d Map Generator</h1>
+		</header>
+		<main class="content">
+			<div class="generator">
+				<div class="ranges">
+					<div class="range width">
+						<span class="name">Width</span>
+						<span class="value">0</span>
+						<input class="slider" type="range" name="width" id="width" min="3" max="15" value="7">
+					</div>
+					<div class="range height">
+						<span class="name">Height</span>
+						<span class="value">0</span>
+						<input class="slider" type="range" name="height" id="height" min="3" max="15" value="7">
+					</div>
 				</div>
-				<div class="range" id="height">
-					<p class="name">Height</p>
-					<input type="range" name="height" id="height" min="3" max="15" step="1" value="3">
-					<p class="value"></p>
+				<div class="map" id="map">
+					<!-- Here will be inserted the checkboxes -->
+					<input type="checkbox" name="0:0" id="0:0">
+				</div>
+				<div class="buttons">
+					<button id="reset" class="danger" onclick="reset()">Reset</button>
+					<button id="clear" class="danger" onclick="updateMap()">Clear</button>
+					<button id="export" class="" onclick="" disabled>Export as file</button>
+					<button id="copy" class="" onclick="copy()">Copy to clipboard</button>
 				</div>
 			</div>
-			<div class="map" id="map"></div>
-			<div class="buttons" id="buttons">
-				<a href="#" class="export" onclick="exportMap()">EXPORT</a>
-				<a href="#" class="clipboard" onclick="toClipboard()">COPY TO CLIPBOARD</a>
+			<div class="sections">
+				<section>
+					<h1>How to use it</h1>
+					<p>To "paint" on the map, you can click and drag your cursor over the tiles.</p>
+					<!-- <p>Maybe talk about other things...</p> -->
+				</section>
+				<section>
+					<h1>About</h1>
+					<p>This tool is for those who wants to create <span class="bold">Cub3d</span> maps to easily test their program in different test cases.</p>
+				</section>
 			</div>
-		</div>
+		</main>
+		<footer>
+			<p class="author">Created by <a href="http://github.com/cosmodd" target="_blank">cosmodd</a></p>
+		</footer>
 	</div>
 </body>
 </html>
