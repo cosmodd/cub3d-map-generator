@@ -82,7 +82,8 @@ h1, h2, h3, h4, h5, p {
 
 .wrapper header nav a {
   text-decoration: none;
-  color: #F7F7F7; }
+  color: #F7F7F7;
+  cursor: pointer; }
 
 .wrapper main {
   display: flex;
