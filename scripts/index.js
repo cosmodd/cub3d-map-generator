@@ -113,7 +113,7 @@ function	updateMap()
 
 function	getMapAsCArray()
 {
-	return (`int	map[${values.height.value}][${values.width.value}] = {\n${map.map(l => `\t{ ${l.map(v => +v).join(',')} }`).join(',\n')}\n}`);
+	return (`int	map[${values.height.value}][${values.width.value}] = {\n${map.map(l => `\t{ ${l.map(v => +v).join(',')} }`).join(',\n')}\n};`);
 }
 
 function	getFileMap()
@@ -184,3 +184,5 @@ document.addEventListener("readystatechange", event => {
 });
 
 new ResizeObserver(updateMaxWidth).observe(nodes.map);
+
+feather.replace();

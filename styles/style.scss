@@ -3,10 +3,68 @@ $blue-alt: lighten($blue, 15);
 $red: #FF5445;
 $green: #49c93d;
 $white: #F7F7F7;
-$black: #222222;
-$black-alt: #999999;
+$dark: #222233;
+$black-alt: lighten($dark, 15);
+
+$palette: (
+	light: (
+		bg-50: hsl(0, 0%, 96%),
+		bg-60: hsl(0, 0%, 99%),
+		bg-70: hsl(0, 0%, 100%),
+		bg-shadow: transparentize(hsl(0, 0, 15%), .9),
+		bg-accent: hsl(0, 0, 70%),
+		bg-accent-alt: hsl(0, 0, 60%),
+		bg-accent-shadow: transparentize(hsl(0, 0, 70%), .7),
+		text: hsl(240, 20%, 17%),
+		blue: hsl(245, 100%, 64%),
+		blue-alt: hsl(245, 100%, 74%),
+		blue-shadow: transparentize(hsl(245, 100%, 64%), .5),
+		red: hsl(5, 100%, 64%),
+		red-alt: hsl(5, 100%, 74%),
+		red-shadow: transparentize(hsl(5, 100%, 64%), .5),
+		green: hsl(115, 56%, 51%),
+		green-alt: hsl(115, 56%, 61%),
+		green-shadow: transparentize(hsl(115, 56%, 51%), .5),
+		),
+	dark: (
+		bg-50: hsl(240, 20%, 16%),
+		bg-60: hsl(240, 20%, 19%),
+		bg-70: hsl(240, 20%, 25%),
+		bg-shadow: transparentize(hsl(240, 20%, 5%), .9),
+		bg-accent: hsl(240, 20%, 30%),
+		bg-accent-alt: hsl(240, 20%, 40%),
+		bg-accent-shadow: transparentize(hsl(240, 20%, 30%), .7),
+		text: hsl(0, 0%, 97%),
+		blue: hsl(245, 100%, 64%),
+		blue-alt: hsl(245, 100%, 74%),
+		blue-shadow: transparentize(hsl(245, 100%, 64%), .6),
+		red: hsl(5, 100%, 64%),
+		red-alt: hsl(5, 100%, 74%),
+		red-shadow: transparentize(hsl(5, 100%, 64%), .6),
+		green: hsl(115, 56%, 51%),
+		green-alt: hsl(115, 56%, 61%),
+		green-shadow: transparentize(hsl(115, 56%, 51%), .6),
+		),
+);
 
 @import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+html {
+	@each $key, $value in map-get($palette, 'light') {
+		#{'--#{$key}'}: $value;
+	}
+}
+
+
+html[dark="true"]
+{
+	@each $key, $value in map-get($palette, 'dark') {
+		#{'--#{$key}'}: $value;
+	}
+}
+
+html[dark="true"] header nav .mode .sun { display: none; }
+html:not([dark="true"]) header nav .mode .moon { display: none; }
 
 * {
 	font-family: 'Space Mono';
@@ -17,7 +75,7 @@ html, body {
 	overflow-x: hidden;
 	margin: 0;
 	padding: 0;
-	background: $white;
+	background: var(--bg-50);
 }
 
 h1, h2, h3, h4, h5, p { margin: 0; }
@@ -33,11 +91,29 @@ h1, h2, h3, h4, h5, p { margin: 0; }
 	gap: 3rem;
 
 	header {
-		grid-area: "header";
+		display: grid;
+		grid-template-columns: auto max-content;
+		align-items: center;
+
+		grid-area: header;
 		padding: .75rem;
-		background: linear-gradient(90deg, $blue 0%, $blue-alt 100%);
-		box-shadow: 0px 8px 1.5rem 0px transparentize($blue, .5);
+		background: linear-gradient(90deg, var(--blue) 0%, var(--blue-alt) 100%);
+		box-shadow: 0px 8px 1.5rem 0px var(--blue-shadow);
 		color: $white;
+
+		.title {
+			word-break: unset;
+		}
+
+		nav {
+			display: flex;
+			flex-direction: row;
+
+			a {
+				text-decoration: none;
+				color: $white;
+			}
+		}
 	}
 
 	main {
@@ -51,9 +127,9 @@ h1, h2, h3, h4, h5, p { margin: 0; }
 			display: flex;
 			flex-direction: column;
 			gap: 1rem;
-			background: $white;
+			background: var(--bg-60);
 			padding: 1.5rem;
-			box-shadow: 0 8px 1.5rem 0 transparentize($black-alt, .75);
+			box-shadow: 0 8px 2rem 0 var(--bg-shadow);
 			border-radius: .5rem;
 
 			.map {
@@ -69,18 +145,22 @@ h1, h2, h3, h4, h5, p { margin: 0; }
 
 				input[type=checkbox] {
 					appearance: none;
-					background: $black-alt;
+					background: var(--bg-accent);
 					width: 2rem;
 					height: 2rem;
 					border-radius: .3rem;
 					transition: background .15s ease-out;
 
 					&:hover {
-						background: $blue-alt;
+						background: var(--bg-accent-alt);
 					}
 
 					&:checked {
-						background: $blue;
+						background: var(--blue);
+
+						&:hover {
+							background: var(--blue-alt);
+						}
 					}
 				}
 			}
@@ -91,17 +171,19 @@ h1, h2, h3, h4, h5, p { margin: 0; }
 				gap: 1rem;
 
 				.range {
-					background: $white;
-					box-shadow: 0 8px 1.5rem 0 transparentize($black-alt, .75);
+					background: var(--bg-70);
+					box-shadow: 0 8px 1.5rem 0 var(--bg-shadow);
+					color: var(--text);
 					padding: .5rem;
 					border-radius: .3rem;
 					display: grid;
+					gap: .3rem;
 					grid-template:
-						auto auto
-						auto auto;
+					auto auto
+					auto auto;
 					grid-template-areas:
-						"name value"
-						"slider slider";
+					"name value"
+					"slider slider";
 
 					.name {
 						grid-area: name;
@@ -124,21 +206,21 @@ h1, h2, h3, h4, h5, p { margin: 0; }
 				gap: 1rem;
 
 				button {
-					--bg-color: #{$blue};
-					--bg-shadow-col: #{transparentize($blue, .6)};
+					--button-bg: var(--blue);
+					--bg-shadow-col: var(--blue-shadow);
 					appearance: none;
 					border: none;
 					padding: .5rem;
 					border-radius: .3rem;
 					font-weight: bold;
-					background: var(--bg-color);
+					background: var(--button-bg);
 					color: $white;
 					box-shadow: 0 .3rem 1rem 0 var(--bg-shadow-col);
 					transition: transform .15s ease-out, background 100ms ease-out, box-shadow 100ms ease-out;
 
 					&:disabled {
-						background: $black-alt;
-						--bg-shadow-col: #{transparentize($black-alt, .3)};
+						--button-bg: var(--bg-accent);
+						--bg-shadow-col: var(--bg-accent-shadow);
 						cursor: not-allowed;
 					}
 
@@ -153,13 +235,13 @@ h1, h2, h3, h4, h5, p { margin: 0; }
 					}
 
 					&.danger {
-						--bg-color: #{$red};
-						--bg-shadow-col: #{transparentize($red, .6)};
+						--button-bg: var(--red);
+						--bg-shadow-col: var(--red-shadow);
 					}
-
+					
 					&.valid {
-						--bg-color: #{$green};
-						--bg-shadow-col: #{transparentize($green, .6)};
+						--button-bg: var(--green);
+						--bg-shadow-col: var(--green-shadow);
 					}
 				}
 			}
@@ -171,25 +253,26 @@ h1, h2, h3, h4, h5, p { margin: 0; }
 			gap: 1.5rem;
 
 			section {
-				background: $white;
-				box-shadow: 0 8px 1.5rem 0 transparentize($black-alt, .75);
+				background: var(--bg-60);
+				box-shadow: 0 8px 2rem 0 var(--bg-shadow);
+				color: var(--text);
 				border-radius: .5rem;
 				padding: 1.5rem;
-
+				
 				.title {
 					margin-bottom: .5rem;
 				}
-
+				
 				.content {
 					display: flex;
 					flex-direction: column;
 					gap: .5rem;
-
-
-					p {
+					
+					
+					/* p {
 						position: relative;
 						padding-left: 1rem;
-
+						
 						&::before {
 							content: '';
 							display: block;
@@ -197,10 +280,18 @@ h1, h2, h3, h4, h5, p { margin: 0; }
 							width: 2px;
 							height: 100%;
 							left: 0;
-							background: $black-alt;
+							background: var(--bg-accent-alt);
 						}
+					} */
+					
+					p {
+						position: relative;
+						padding: 1rem;
+						background: var(--bg-70);
+						border-radius: .5rem;
+						box-shadow: 0 8px 1rem 0 var(--bg-shadow);
 					}
-
+					
 					pre {
 						margin: 0;
 						code {
@@ -216,7 +307,7 @@ h1, h2, h3, h4, h5, p { margin: 0; }
 	footer {
 		grid-area: "footer";
 		padding: .75rem;
-		background: linear-gradient(90deg, $blue 0%, $blue-alt 100%);
+		background: linear-gradient(90deg, var(--blue) 0%, var(--blue-alt) 100%);
 		color: $white;
 
 		a {

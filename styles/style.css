@@ -1,4 +1,48 @@
 @import url("https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap");
+html {
+  --bg-50: whitesmoke;
+  --bg-60: #fcfcfc;
+  --bg-70: white;
+  --bg-shadow: rgba(38, 38, 38, 0.1);
+  --bg-accent: #b3b3b3;
+  --bg-accent-alt: #999999;
+  --bg-accent-shadow: rgba(179, 179, 179, 0.3);
+  --text: #232334;
+  --blue: #5747ff;
+  --blue-alt: #857aff;
+  --blue-shadow: rgba(87, 71, 255, 0.5);
+  --red: #ff5747;
+  --red-alt: #ff857a;
+  --red-shadow: rgba(255, 87, 71, 0.5);
+  --green: #48c83c;
+  --green-alt: #6dd364;
+  --green-shadow: rgba(72, 200, 60, 0.5); }
+
+html[dark="true"] {
+  --bg-50: #212131;
+  --bg-60: #27273a;
+  --bg-70: #33334d;
+  --bg-shadow: rgba(10, 10, 15, 0.1);
+  --bg-accent: #3d3d5c;
+  --bg-accent-alt: #52527a;
+  --bg-accent-shadow: rgba(61, 61, 92, 0.3);
+  --text: #f7f7f7;
+  --blue: #5747ff;
+  --blue-alt: #857aff;
+  --blue-shadow: rgba(87, 71, 255, 0.4);
+  --red: #ff5747;
+  --red-alt: #ff857a;
+  --red-shadow: rgba(255, 87, 71, 0.4);
+  --green: #48c83c;
+  --green-alt: #6dd364;
+  --green-shadow: rgba(72, 200, 60, 0.4); }
+
+html[dark="true"] header nav .mode .sun {
+  display: none; }
+
+html:not([dark="true"]) header nav .mode .moon {
+  display: none; }
+
 * {
   font-family: 'Space Mono';
   font-variant-ligatures: none; }
@@ -7,7 +51,7 @@ html, body {
   overflow-x: hidden;
   margin: 0;
   padding: 0;
-  background: #F7F7F7; }
+  background: var(--bg-50); }
 
 h1, h2, h3, h4, h5, p {
   margin: 0; }
@@ -20,10 +64,24 @@ h1, h2, h3, h4, h5, p {
   gap: 3rem; }
 
 .wrapper header {
-  grid-area: "header";
+  display: grid;
+  grid-template-columns: auto max-content;
+  align-items: center;
+  grid-area: header;
   padding: .75rem;
-  background: linear-gradient(90deg, #5445FF 0%, #9a92ff 100%);
-  box-shadow: 0px 8px 1.5rem 0px rgba(84, 69, 255, 0.5);
+  background: linear-gradient(90deg, var(--blue) 0%, var(--blue-alt) 100%);
+  box-shadow: 0px 8px 1.5rem 0px var(--blue-shadow);
+  color: #F7F7F7; }
+
+.wrapper header .title {
+  word-break: unset; }
+
+.wrapper header nav {
+  display: flex;
+  flex-direction: row; }
+
+.wrapper header nav a {
+  text-decoration: none;
   color: #F7F7F7; }
 
 .wrapper main {
@@ -37,9 +95,9 @@ h1, h2, h3, h4, h5, p {
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  background: #F7F7F7;
+  background: var(--bg-60);
   padding: 1.5rem;
-  box-shadow: 0 8px 1.5rem 0 rgba(153, 153, 153, 0.25);
+  box-shadow: 0 8px 2rem 0 var(--bg-shadow);
   border-radius: .5rem; }
 
 .wrapper main .generator .map {
@@ -54,17 +112,20 @@ h1, h2, h3, h4, h5, p {
 
 .wrapper main .generator .map input[type=checkbox] {
   appearance: none;
-  background: #999999;
+  background: var(--bg-accent);
   width: 2rem;
   height: 2rem;
   border-radius: .3rem;
   transition: background .15s ease-out; }
 
 .wrapper main .generator .map input[type=checkbox]:hover {
-  background: #9a92ff; }
+  background: var(--bg-accent-alt); }
 
 .wrapper main .generator .map input[type=checkbox]:checked {
-  background: #5445FF; }
+  background: var(--blue); }
+
+.wrapper main .generator .map input[type=checkbox]:checked:hover {
+  background: var(--blue-alt); }
 
 .wrapper main .generator .ranges {
   display: flex;
@@ -72,11 +133,13 @@ h1, h2, h3, h4, h5, p {
   gap: 1rem; }
 
 .wrapper main .generator .ranges .range {
-  background: #F7F7F7;
-  box-shadow: 0 8px 1.5rem 0 rgba(153, 153, 153, 0.25);
+  background: var(--bg-70);
+  box-shadow: 0 8px 1.5rem 0 var(--bg-shadow);
+  color: var(--text);
   padding: .5rem;
   border-radius: .3rem;
   display: grid;
+  gap: .3rem;
   grid-template: auto auto auto auto;
   grid-template-areas: "name value" "slider slider"; }
 
@@ -96,21 +159,21 @@ h1, h2, h3, h4, h5, p {
   gap: 1rem; }
 
 .wrapper main .generator .buttons button {
-  --bg-color: #5445FF;
-  --bg-shadow-col: rgba(84, 69, 255, 0.4);
+  --button-bg: var(--blue);
+  --bg-shadow-col: var(--blue-shadow);
   appearance: none;
   border: none;
   padding: .5rem;
   border-radius: .3rem;
   font-weight: bold;
-  background: var(--bg-color);
+  background: var(--button-bg);
   color: #F7F7F7;
   box-shadow: 0 0.3rem 1rem 0 var(--bg-shadow-col);
   transition: transform .15s ease-out, background 100ms ease-out, box-shadow 100ms ease-out; }
 
 .wrapper main .generator .buttons button:disabled {
-  background: #999999;
-  --bg-shadow-col: rgba(153, 153, 153, 0.7);
+  --button-bg: var(--bg-accent);
+  --bg-shadow-col: var(--bg-accent-shadow);
   cursor: not-allowed; }
 
 .wrapper main .generator .buttons button:active {
@@ -122,12 +185,12 @@ h1, h2, h3, h4, h5, p {
   box-shadow: 0 0.6rem 1.2rem 0 var(--bg-shadow-col); }
 
 .wrapper main .generator .buttons button.danger {
-  --bg-color: #FF5445;
-  --bg-shadow-col: rgba(255, 84, 69, 0.4); }
+  --button-bg: var(--red);
+  --bg-shadow-col: var(--red-shadow); }
 
 .wrapper main .generator .buttons button.valid {
-  --bg-color: #49c93d;
-  --bg-shadow-col: rgba(73, 201, 61, 0.4); }
+  --button-bg: var(--green);
+  --bg-shadow-col: var(--green-shadow); }
 
 .wrapper main .sections {
   display: grid;
@@ -135,8 +198,9 @@ h1, h2, h3, h4, h5, p {
   gap: 1.5rem; }
 
 .wrapper main .sections section {
-  background: #F7F7F7;
-  box-shadow: 0 8px 1.5rem 0 rgba(153, 153, 153, 0.25);
+  background: var(--bg-60);
+  box-shadow: 0 8px 2rem 0 var(--bg-shadow);
+  color: var(--text);
   border-radius: .5rem;
   padding: 1.5rem; }
 
@@ -146,20 +210,28 @@ h1, h2, h3, h4, h5, p {
 .wrapper main .sections section .content {
   display: flex;
   flex-direction: column;
-  gap: .5rem; }
+  gap: .5rem;
+  /* p {
+						position: relative;
+						padding-left: 1rem;
+						
+						&::before {
+							content: '';
+							display: block;
+							position: absolute;
+							width: 2px;
+							height: 100%;
+							left: 0;
+							background: var(--bg-accent-alt);
+						}
+					} */ }
 
 .wrapper main .sections section .content p {
   position: relative;
-  padding-left: 1rem; }
-
-.wrapper main .sections section .content p::before {
-  content: '';
-  display: block;
-  position: absolute;
-  width: 2px;
-  height: 100%;
-  left: 0;
-  background: #999999; }
+  padding: 1rem;
+  background: var(--bg-70);
+  border-radius: .5rem;
+  box-shadow: 0 8px 1rem 0 var(--bg-shadow); }
 
 .wrapper main .sections section .content pre {
   margin: 0; }
@@ -170,7 +242,7 @@ h1, h2, h3, h4, h5, p {
 .wrapper footer {
   grid-area: "footer";
   padding: .75rem;
-  background: linear-gradient(90deg, #5445FF 0%, #9a92ff 100%);
+  background: linear-gradient(90deg, var(--blue) 0%, var(--blue-alt) 100%);
   color: #F7F7F7; }
 
 .wrapper footer a {

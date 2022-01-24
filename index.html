@@ -1,9 +1,12 @@
+<html>
 <head>
 	<meta charset="UTF-8">
 	<title>cub3d Map Generator</title>
+	<script src="https://unpkg.com/feather-icons"></script>
 	<script defer src="https://unpkg.com/@highlightjs/cdn-assets@11.3.1/highlight.min.js"></script>
 	<script defer src="scripts/FileSaver.js"></script>
 	<script defer src="scripts/index.js"></script>
+	<script defer src="scripts/darkmode.js"></script>
 	<link rel="stylesheet" href="https://unpkg.com/@highlightjs/cdn-assets@11.3.1/styles/github-dark.min.css">
 	<link rel="stylesheet" href="https://unpkg.com/normalize.css@8.0.1/normalize.css">
 	<link rel="stylesheet" href="styles/style.css">
@@ -12,6 +15,12 @@
 	<div class="wrapper">
 		<header>
 			<h1 class="title">Cub3d Map Generator</h1>
+			<nav>
+				<a href="#" class="mode" onclick="switch_mode()">
+					<i data-feather="sun" class="sun"></i>
+					<i data-feather="moon" class="moon"></i>
+				</a>
+			</nav>
 		</header>
 		<main class="content">
 			<div class="generator">
@@ -28,10 +37,18 @@
 					</div>
 				</div>
 				<div class="buttons">
-					<button id="reset" class="danger" onclick="reset()">Reset</button>
-					<button id="clear" class="danger" onclick="updateMap()">Clear</button>
-					<button id="export" class="" onclick="saveMap()">Export as file</button>
-					<button id="copy" class="" onclick="copy()">Copy to clipboard</button>
+					<button id="reset" class="danger" onclick="reset()">
+						Reset
+					</button>
+					<button id="clear" class="danger" onclick="updateMap()">
+						Clear
+					</button>
+					<button id="export" class="" onclick="saveMap()" disabled>
+						Export as file
+					</button>
+					<button id="copy" class="" onclick="copy()">
+						Copy to clipboard
+					</button>
 				</div>
 				<div class="map" id="map">
 					<!-- Here will be inserted the checkboxes -->
@@ -39,6 +56,11 @@
 				</div>
 			</div>
 			<div class="sections">
+				<!-- <section id="options">
+					<h1 class="title">Options</h1>
+					<div class="content">
+					</div>
+				</section> -->
 				<section>
 					<h1 class="title">How to use it</h1>
 					<div class="content">
@@ -52,14 +74,14 @@
 						<p>This tool is for those who wants to create <span class="bold">Cub3d</span> maps to easily test their program in different test cases.</p>
 						<p>Copying the map to the clipboard gives you an array like this :</p>
 							<pre><code class="language-c">int    map[7][7] = {
-	{ 1,1,1,1,1,1,1 },
-	{ 1,0,0,1,0,0,1 },
-	{ 1,0,0,1,0,0,1 },
-	{ 1,1,1,1,1,1,1 },
-	{ 1,0,0,1,0,0,1 },
-	{ 1,0,0,1,0,0,1 },
-	{ 1,1,1,1,1,1,1 }
-};						</code></pre>
+    { 1,1,1,1,1,1,1 },
+    { 1,0,0,1,0,0,1 },
+    { 1,0,0,1,0,0,1 },
+    { 1,1,1,1,1,1,1 },
+    { 1,0,0,1,0,0,1 },
+    { 1,0,0,1,0,0,1 },
+    { 1,1,1,1,1,1,1 }
+};</code></pre>
 						<p>And exporting the map as a file gives you this :</p>
 						<pre><code class="language-plaintext">NO ./path_to_the_north_texture
 SO ./path_to_the_south_texture
